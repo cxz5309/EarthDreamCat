@@ -10,18 +10,12 @@ public class ControlManager : MonoBehaviour
     public GameObject judgeUI;
     private EnemyInfo.Type thisType;
     public judges judge;
-    public Animator playerAnimator;
     public Animator judgeUIAnimator;
     public Animator comboUIAnimator;
     public Sprite[] judgeUISprites;
     public Text comboText;
     public Text scoreText;
-
-    public int combo { get; set; }
-    public int maxCombo { get; set; }
-    public int score { get; set; }
-    public int[] judgeNum = new int[3];
-
+    
     #region
     private KeyCode keyCode;
     #endregion
@@ -38,7 +32,7 @@ public class ControlManager : MonoBehaviour
 
     private void Start()
     {
-        maxCombo = 0;
+        Results.maxCombo = 0;
         theAudio = FindObjectOfType<AudioManager>();
     }
 
@@ -68,7 +62,7 @@ public class ControlManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             theAudio.Play(button);
-            playerAnimator.SetTrigger("punchTrigger");
+            PlayerInfo.instance.SetPlayerAnimator("punchTrigger");
             if (KeyCode.Q == keyCode)
             {
                 if (thisEnemy != null)
@@ -85,7 +79,7 @@ public class ControlManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.W))
         {
             theAudio.Play(button);
-            playerAnimator.SetTrigger("avoidTrigger");
+            PlayerInfo.instance.SetPlayerAnimator("avoidTrigger");
             if (KeyCode.W == keyCode)
             {
                 if (thisEnemy != null)
@@ -102,7 +96,7 @@ public class ControlManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E))
         {
             theAudio.Play(button);
-            playerAnimator.SetTrigger("guardTrigger");
+            PlayerInfo.instance.SetPlayerAnimator("guardTrigger");
             if (KeyCode.E == keyCode)
             {
                 if (thisEnemy != null)
@@ -119,7 +113,7 @@ public class ControlManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.R))
         {
             theAudio.Play(button);
-            playerAnimator.SetTrigger("attackTrigger");
+            PlayerInfo.instance.SetPlayerAnimator("attackTrigger");
             if (KeyCode.R == keyCode)
             {
                 if (thisEnemy != null)
@@ -146,17 +140,17 @@ public class ControlManager : MonoBehaviour
         Image judgeUIImage = judgeUI.GetComponent<Image>();
         judgeUIImage.sprite = judgeUISprites[(int)judge - 1];
         judgeUIAnimator.SetTrigger("judgeTrigger");
-        judgeNum[(int)judge-1]++;
+        Results.judgeNum[(int)judge-1]++;
     }
 
     public void ProcessCombo()
     {
-        combo++;
-        comboText.text = combo + " Combo";
+        Results.combo++;
+        comboText.text = Results.combo + " Combo";
         comboUIAnimator.SetTrigger("comboTrigger");
-        if (maxCombo < combo)
+        if (Results.maxCombo < Results.combo)
         {
-            maxCombo = combo;
+            Results.maxCombo = Results.combo;
         }
     }
 
@@ -169,7 +163,7 @@ public class ControlManager : MonoBehaviour
 
     public void DestroyCombo()
     {
-        combo = 0;
+        Results.combo = 0;
         comboText.text = "";
     }
 
@@ -177,13 +171,13 @@ public class ControlManager : MonoBehaviour
     {
         if (judge == judges.PERFECT)
         {
-            score += 300;
+            Results.score += 300;
         }
         else if(judge == judges.GOOD)
         {
-            score += 200;
+            Results.score += 200;
         }
-        scoreText.text = score.ToString();
+        scoreText.text = Results.score.ToString();
     }
     //public void onRedClick()
     //{

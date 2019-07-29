@@ -8,9 +8,11 @@ public class PlayerInfo : MonoBehaviour
     public static PlayerInfo instance;
 
     public Image healthBarSlider;
+    public Animator playerAnimator;
 
     public float curHealthPoint;
     public float maxHealthPoint;
+
     // Start is called before the first frame update
 
     void Awake()
@@ -38,5 +40,9 @@ public class PlayerInfo : MonoBehaviour
     public void SetHealthBarUI()
     {
         healthBarSlider.fillAmount = curHealthPoint / maxHealthPoint;
+    }
+    public void SetPlayerAnimator(string behavior)
+    {
+        playerAnimator.SetTrigger(behavior);
     }
 }

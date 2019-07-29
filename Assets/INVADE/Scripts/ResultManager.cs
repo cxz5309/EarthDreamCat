@@ -12,9 +12,9 @@ public class ResultManager : MonoBehaviour
     public Text goodText;
     public Text missText;
 
-    int maxCombo = ControlManager.instance.maxCombo;
-    int[] judgeNum = ControlManager.instance.judgeNum;
-    int score = ControlManager.instance.score;
+    int maxCombo = Results.maxCombo;
+    int[] judgeNum = Results.judgeNum;
+    int score = Results.score;
 
     public string button;
     private AudioManager theAudio;
