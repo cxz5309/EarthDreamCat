@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NoteManager : MonoBehaviour
+public class Note1_1 : MonoBehaviour
 {
     private List<Enemy> enemies= new List<Enemy>();
     private float beatInterval;

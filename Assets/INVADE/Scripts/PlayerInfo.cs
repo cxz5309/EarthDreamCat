@@ -12,8 +12,8 @@ public class PlayerInfo : MonoBehaviour
 
     public float curHealthPoint;
     public float maxHealthPoint;
+    
 
-    // Start is called before the first frame update
 
     void Awake()
     {

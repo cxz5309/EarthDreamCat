@@ -34,12 +34,6 @@ public class ResultManager : MonoBehaviour
     {
         theAudio.Play(button);
         SceneManager.LoadScene("MainScene");
-
-        // 게임매니저가 사라지면 오디오매니저를 파괴하면서 메인화면으로 갔을 때 중복을 방지
-        if (AudioManager.instance != null)
-        {
-            AudioManager.instance.SetDestroy();
-        }
     }
 
     public void GoToGame()

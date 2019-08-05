@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public string gameBGM;
-    private AudioManager theAudio;
+    public GameObject gameSceneMenu;       // 메뉴 전체 활성화/비활성화
+    private bool activated;     // 활성화 됐는지 비활성화 됐는지
 
+    public string themeSound;
+    public string buttonSound;
+    private AudioManager theAudio;
 
     [Header("Object Pool Variables")]
     public GameObject HighMonster;
@@ -26,7 +31,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         theAudio = FindObjectOfType<AudioManager>();
-        theAudio.Play(gameBGM);
+        StageManager.instance.stageStart();
+        themeSound = StageManager.instance.stageBGM;
+        theAudio.Play(themeSound);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnMenuActive();
+        }
     }
 
     void InitObjectPool()
@@ -36,5 +51,61 @@ public class GameManager : MonoBehaviour
         ObjectPoolContainer.Instance.CreateObjectPool("HighAttack", HighAttack, 20);
         ObjectPoolContainer.Instance.CreateObjectPool("LowAttack", LowAttack, 20);
         ObjectPoolContainer.Instance.CreateObjectPool("HitEffect", HitEffect, 20);
+    }
+
+    public void OnMenuActive()
+    {
+        theAudio.Play(buttonSound);
+        activated = !activated;
+
+        if (activated)
+        {
+            gameSceneMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            gameSceneMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
+    public void Continue()
+    {
+        theAudio.Play(buttonSound);
+        activated = false;
+        gameSceneMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void SceneChangeToGame()
+    {
+        theAudio.Play(buttonSound);
+        SceneManager.LoadScene("GameScene");
+        Time.timeScale = 1;
+    }
+
+    public void SceneChangeToMain()
+    {
+        theAudio.Play(buttonSound);
+        SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1;
+        theAudio.Stop(themeSound);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();     // 겜 종료
+    }
+
+
+    public void BackGroundMute(Toggle toggle)
+    {
+        theAudio.SetBackGroundMute(toggle.isOn);
+    }
+
+    public void EffectMute(Toggle toggle)
+    {
+        theAudio.SetEffectMute(toggle.isOn);
     }
 }
