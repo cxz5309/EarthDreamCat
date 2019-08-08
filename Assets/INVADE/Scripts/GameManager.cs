@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameSceneMenu;       // 메뉴 전체 활성화/비활성화
     private bool activated;     // 활성화 됐는지 비활성화 됐는지
 
-    public string themeSound;
+    private string themeSound;
     public string buttonSound;
     private AudioManager theAudio;
 
@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         theAudio = FindObjectOfType<AudioManager>();
-        StageManager.instance.stageStart();
-        themeSound = StageManager.instance.stageBGM;
+        StageManager.instance.stageStart();         // StageManager에 있는 StageName이 가지고 있는 맵을 생성
+        themeSound = StageManager.instance.stageBGM;    // StageManager에 있는 stageBGM 재생
         theAudio.Play(themeSound);
     }
 
