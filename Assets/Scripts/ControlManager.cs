@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class ControlManager : MonoBehaviour
 {
     public enum judges { NONE = 0, PERFECT, GOOD, MISS };
-    private GameObject thisEnemy = null;
+    private GameObject[] thisEnemy = new GameObject[4];
     public GameObject judgeUI;
-    private EnemyInfo.Type thisType;
     public judges judge;
     public Animator judgeUIAnimator;
     public Animator comboUIAnimator;
@@ -39,40 +38,20 @@ public class ControlManager : MonoBehaviour
     private void Update()
     {
         #region
-        if (thisEnemy != null)
-        {
-            thisType = thisEnemy.GetComponent<EnemyInfo>().type;
-            switch (thisType)
-            {
-                case EnemyInfo.Type.HighMonster:
-                    keyCode = KeyCode.Q;
-                    break;
-                case EnemyInfo.Type.HighAttack:
-                    keyCode = KeyCode.W;
-                    break;
-                case EnemyInfo.Type.LowAttack:
-                    keyCode = KeyCode.E;
-                    break;
-                case EnemyInfo.Type.LowMonster:
-                    keyCode = KeyCode.R;
-                    break;
-            }
-        }
-
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             theAudio.Play(button);
             PlayerInfo.instance.SetPlayerAnimator("punchTrigger");
-            if (KeyCode.Q == keyCode)
             {
-                if (thisEnemy != null)
+                if (thisEnemy[0] != null)
                 {
-                    OnHitEffect(thisEnemy.transform);
+                    OnHitEffect(thisEnemy[0].transform);
                     ProcessCombo();
                     ProcessJudge(judge);
                     ProcessScore(judge);
-                    thisEnemy.SetActive(false);
-                    thisEnemy = null;
+                    thisEnemy[0].SetActive(false);
+                    thisEnemy[0] = null;
                 }
             }
         }
@@ -80,16 +59,15 @@ public class ControlManager : MonoBehaviour
         {
             theAudio.Play(button);
             PlayerInfo.instance.SetPlayerAnimator("avoidTrigger");
-            if (KeyCode.W == keyCode)
             {
-                if (thisEnemy != null)
+                if (thisEnemy[1] != null)
                 {
-                    OnHitEffect(thisEnemy.transform);
+                    OnHitEffect(thisEnemy[1].transform);
                     ProcessCombo();
                     ProcessJudge(judge);
                     ProcessScore(judge);
-                    thisEnemy.SetActive(false);
-                    thisEnemy = null;
+                    thisEnemy[1].SetActive(false);
+                    thisEnemy[1] = null;
                 }
             }
         }
@@ -97,16 +75,15 @@ public class ControlManager : MonoBehaviour
         {
             theAudio.Play(button);
             PlayerInfo.instance.SetPlayerAnimator("guardTrigger");
-            if (KeyCode.E == keyCode)
             {
-                if (thisEnemy != null)
+                if (thisEnemy[2] != null)
                 {
-                    OnHitEffect(thisEnemy.transform);
+                    OnHitEffect(thisEnemy[2].transform);
                     ProcessCombo();
                     ProcessJudge(judge);
                     ProcessScore(judge);
-                    thisEnemy.SetActive(false);
-                    thisEnemy = null;
+                    thisEnemy[2].SetActive(false);
+                    thisEnemy[2] = null;
                 }
             }
         }
@@ -114,25 +91,24 @@ public class ControlManager : MonoBehaviour
         {
             theAudio.Play(button);
             PlayerInfo.instance.SetPlayerAnimator("attackTrigger");
-            if (KeyCode.R == keyCode)
             {
-                if (thisEnemy != null)
+                if (thisEnemy[3] != null)
                 {
-                    OnHitEffect(thisEnemy.transform);
+                    OnHitEffect(thisEnemy[3].transform);
                     ProcessCombo();
                     ProcessJudge(judge);
                     ProcessScore(judge);
-                    thisEnemy.SetActive(false);
-                    thisEnemy = null;
+                    thisEnemy[3].SetActive(false);
+                    thisEnemy[3] = null;
                 }
             }
         }
         #endregion
     }
 
-    public void GetThisEnemy(GameObject thisEnemy)
+    public void GetThisEnemy(GameObject thisEnemy, int type)
     {
-        this.thisEnemy = thisEnemy;
+        this.thisEnemy[type] = thisEnemy;
     }
 
     public void ProcessJudge(judges judge)

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this; // 싱글톤 사용
+        InitEnemyObjectPool();
         InitObjectPool(); // ObjectPoolContainer 초기화
     }
 
@@ -35,7 +36,15 @@ public class GameManager : MonoBehaviour
         StageManager.instance.stageStart();         // StageManager에 있는 StageName이 가지고 있는 맵을 생성
         themeSound = StageManager.instance.stageBGM;    // StageManager에 있는 stageBGM 재생
         theAudio.Play(themeSound);
-        Note1_1.instance.NoteStart();
+        NoteManager.instance.NoteStart();
+    }
+
+    public void InitEnemyObjectPool()
+    {
+        HighMonster = Resources.Load("Prefabs/EnemyPrefabs/Stage" + StageManager.instance.stageName.Split('-')[0] + "/Monster_High") as GameObject;
+        LowMonster = Resources.Load("Prefabs/EnemyPrefabs/Stage" + StageManager.instance.stageName.Split('-')[0] + "/Monster_Low") as GameObject;
+        HighAttack = Resources.Load("Prefabs/EnemyPrefabs/Stage" + StageManager.instance.stageName.Split('-')[0] + "/Saw_High") as GameObject;
+        LowAttack = Resources.Load("Prefabs/EnemyPrefabs/Stage" + StageManager.instance.stageName.Split('-')[0] + "/Saw_Low") as GameObject;
     }
 
     private void Update()
@@ -53,6 +62,17 @@ public class GameManager : MonoBehaviour
         ObjectPoolContainer.Instance.CreateObjectPool("HighAttack", HighAttack, 20);
         ObjectPoolContainer.Instance.CreateObjectPool("LowAttack", LowAttack, 20);
         ObjectPoolContainer.Instance.CreateObjectPool("HitEffect", HitEffect, 20);
+    }
+
+    public void GameOver()
+    {
+        Results.gameWin = false;
+        GoToGameResult();
+    }
+
+    public void GoToGameResult()
+    {
+        SceneManager.LoadScene("ResultScene");
     }
 
     public void OnMenuActive()

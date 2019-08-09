@@ -33,7 +33,7 @@ public class PlayerInfo : MonoBehaviour
         if (curHealthPoint <= 0)
         {
             curHealthPoint = 0;
-            //GameManager.instance.GameOver();
+            GameManager.instance.GameOver();
         }
         SetHealthBarUI();
     }
