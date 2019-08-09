@@ -14,6 +14,8 @@ public class MainManager : MonoBehaviour
     public GameObject gameStart;
 
     public Text stageText;
+    public Text highScore;
+    public Text highCombo;
 
     private bool activated;     // 활성화 됐는지 비활성화 됐는지
 
@@ -84,6 +86,8 @@ public class MainManager : MonoBehaviour
         theAudio.Play(button);
 
         stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
+        highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
+        highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
 
         StageManager.instance.stageName = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
         Debug.Log("스테이지 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName);

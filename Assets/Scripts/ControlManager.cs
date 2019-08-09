@@ -31,6 +31,7 @@ public class ControlManager : MonoBehaviour
 
     private void Start()
     {
+        Results.score = 0;
         Results.maxCombo = 0;
         theAudio = FindObjectOfType<AudioManager>();
     }
@@ -155,6 +156,7 @@ public class ControlManager : MonoBehaviour
         }
         scoreText.text = Results.score.ToString();
     }
+
     //public void onRedClick()
     //{
     //    if (thisEnemy != null)
