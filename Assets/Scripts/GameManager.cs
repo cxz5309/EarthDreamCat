@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject HighAttack;
     public GameObject LowAttack;
     public GameObject HitEffect;
+    //이거를 스테이지마다 다르게 리소스에서 받아와야 할 듯
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
         StageManager.instance.stageStart();         // StageManager에 있는 StageName이 가지고 있는 맵을 생성
         themeSound = StageManager.instance.stageBGM;    // StageManager에 있는 stageBGM 재생
         theAudio.Play(themeSound);
+        Note1_1.instance.NoteStart();
     }
 
     private void Update()
@@ -107,5 +109,10 @@ public class GameManager : MonoBehaviour
     public void EffectMute(Toggle toggle)
     {
         theAudio.SetEffectMute(toggle.isOn);
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
     }
 }

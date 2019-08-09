@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ControlManager : MonoBehaviour
 {
     public enum judges { NONE = 0, PERFECT, GOOD, MISS };
-    private GameObject thisEnemy;
+    private GameObject thisEnemy = null;
     public GameObject judgeUI;
     private EnemyInfo.Type thisType;
     public judges judge;
@@ -232,4 +232,9 @@ public class ControlManager : MonoBehaviour
     //        }
     //    }
     //}
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
 }

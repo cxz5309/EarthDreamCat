@@ -35,4 +35,9 @@ public class StageManager : MonoBehaviour
                 break;
         }
     }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
 }

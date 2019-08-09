@@ -45,4 +45,9 @@ public class PlayerInfo : MonoBehaviour
     {
         playerAnimator.SetTrigger(behavior);
     }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
 }

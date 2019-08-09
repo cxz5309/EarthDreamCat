@@ -28,7 +28,7 @@ public class EnemyInfo : MonoBehaviour
     private void Start()
     {
         damage = 10;
-        Move(-20f, speed);
+        Move(-10, speed);
     }
     private void Move(float to, float duration)
     {

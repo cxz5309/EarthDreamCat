@@ -196,4 +196,9 @@ public class AudioManager : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
 }
