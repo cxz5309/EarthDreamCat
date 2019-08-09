@@ -17,7 +17,7 @@ public class EnemyInfo : MonoBehaviour
 
     public enum Type
     {
-        HighMonster, LowMonster, HighAttack, LowAttack
+        HighMonster, HighAttack, LowAttack, LowMonster
     }
     
 
@@ -48,23 +48,35 @@ public class EnemyInfo : MonoBehaviour
     {
         if (col.tag == "EndLine")
         {
+            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+
             ControlManager.instance.judge = ControlManager.judges.MISS;
-            ControlManager.instance.GetThisEnemy(gameObject);
             ControlManager.instance.ProcessJudge(ControlManager.judges.MISS);
             ControlManager.instance.DestroyCombo();
             PlayerInfo.instance.GetDamage(damage);
             DOTween.Kill(gameObject);
             gameObject.SetActive(false);
         }
+        else if(col.tag == "MissLine")
+        {
+
+            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+
+            ControlManager.instance.judge = ControlManager.judges.MISS;
+            ControlManager.instance.DestroyCombo();
+
+        }
         else if (col.tag == "HitLine")
         {
+            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+
             ControlManager.instance.judge = ControlManager.judges.GOOD;
-            ControlManager.instance.GetThisEnemy(gameObject);
         }
         else if (col.tag == "PerfectLine")
         {
+            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+
             ControlManager.instance.judge = ControlManager.judges.PERFECT;
-            ControlManager.instance.GetThisEnemy(gameObject);
         }
     }
 }

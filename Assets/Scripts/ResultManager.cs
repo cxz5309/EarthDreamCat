@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : MonoBehaviour
 {
+    public GameObject gameWinUI;
+    public GameObject gameLoseUI;
     public Text maxComboText;
     public Text scoreText;
     public Text perfectText;
@@ -15,6 +17,7 @@ public class ResultManager : MonoBehaviour
     int maxCombo = Results.maxCombo;
     int[] judgeNum = Results.judgeNum;
     int score = Results.score;
+    bool gameWin = Results.gameWin;
 
     public string button;
     private AudioManager theAudio;
@@ -22,12 +25,22 @@ public class ResultManager : MonoBehaviour
 
     private void Start()
     {
-        theAudio = FindObjectOfType<AudioManager>();
-        maxComboText.text = "MaxCombo : " + maxCombo.ToString();
-        scoreText.text = "Score : "+score.ToString();
-        perfectText.text = "Perfect : "+judgeNum[0].ToString();
-        goodText.text = "Good : "+judgeNum[1].ToString();
-        missText.text = "Miss : "+judgeNum[2].ToString();
+        if (gameWin)
+        {
+            gameWinUI.SetActive(true);
+            gameLoseUI.SetActive(false);
+            theAudio = FindObjectOfType<AudioManager>();
+            maxComboText.text = "MaxCombo : " + maxCombo.ToString();
+            scoreText.text = "Score : " + score.ToString();
+            perfectText.text = "Perfect : " + judgeNum[0].ToString();
+            goodText.text = "Good : " + judgeNum[1].ToString();
+            missText.text = "Miss : " + judgeNum[2].ToString();
+        }
+        else
+        {
+            gameWinUI.SetActive(false);
+            gameLoseUI.SetActive(true);
+        }
     }
 
     public void GoToMain()

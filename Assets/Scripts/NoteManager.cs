@@ -5,15 +5,17 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Note1_1 : MonoBehaviour
+public class NoteManager : MonoBehaviour
 {
-    public static Note1_1 instance;
+    public static NoteManager instance;
 
     private List<Enemy> enemies= new List<Enemy>();
+    string musicTitle;
     private float beatInterval;
     public Transform[] spawnPoint;
     public float reachTime;
     public float endTime;
+    float startingPoint;
 
     void Awake()
     {
@@ -31,8 +33,10 @@ public class Note1_1 : MonoBehaviour
         endTime = enemies[enemies.Count - 1].order * beatInterval;
         Debug.Log("비트 간격 시간" + beatInterval);
         Debug.Log("종료 시간" + endTime);
-
-        StartCoroutine(coNoteTimer(endTime));
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            StartCoroutine(coAwaitMakeNote(enemies[i]));
+        }
         //그 리스트를 이용해서 타이머를 사용
         StartCoroutine(coEndGame(endTime));
         //종료 후 초기화(에네미리스트)
@@ -40,11 +44,9 @@ public class Note1_1 : MonoBehaviour
 
     public void InitNoteWithBPM(string stage)
     {
-        string musicTitle;
         int bpm;
         int divider;
         float beatCount;
-
 
         TextAsset textAsset = Resources.Load<TextAsset>("Beats/" + stage);
 
@@ -53,6 +55,7 @@ public class Note1_1 : MonoBehaviour
         string beatInformation = reader.ReadLine();
         bpm = Convert.ToInt32(beatInformation.Split(' ')[0]);
         divider = Convert.ToInt32(beatInformation.Split(' ')[1]);
+        startingPoint = (float)Convert.ToDouble(beatInformation.Split(' ')[2]);
         beatCount = (float)bpm / divider;
         beatInterval = 1 / beatCount;
         string line;
@@ -65,44 +68,46 @@ public class Note1_1 : MonoBehaviour
         }
     }
 
-    IEnumerator coNoteTimer(float endTime)
+    //IEnumerator coNoteTimer(float endTime)
+    //{
+    //    float playTime = 0;
+    //    float noteTime = 0;
+    //    int i = 0;
+
+    //    while (playTime < endTime)
+    //    {
+    //        yield return new WaitForFixedUpdate();
+    //        noteTime += Time.fixedDeltaTime;
+    //        playTime += Time.fixedDeltaTime;
+
+    //        if (noteTime >= beatInterval)
+    //        {
+    //            noteTime -= beatInterval;
+    //            MakeNote(enemies[i]);
+    //            i++;
+    //        }
+    //    }
+    //}
+    IEnumerator coAwaitMakeNote(Enemy enemy)
     {
-        float playTime = 0;
-        float noteTime = 0;
-        int i = 0;
-
-        while (playTime < endTime)
-        {
-            yield return new WaitForFixedUpdate();
-            noteTime += Time.fixedDeltaTime;
-            playTime += Time.fixedDeltaTime;
-
-            if (noteTime >= beatInterval)
-            {
-                noteTime -= beatInterval;
-                MakeNote(enemies[i]);
-                i++;
-            }
-        }
+        yield return new WaitForSeconds(enemy.order * beatInterval);
+        MakeNote(enemy);
     }
 
     IEnumerator coEndGame(float endTime)
     {
         yield return new WaitForSeconds(endTime + 4f);
         enemies.Clear();
-        GoToGameResult();
+        Results.gameWin = true;
+        GameManager.instance.GoToGameResult();
     }
 
-    public void GoToGameResult()
-    {
-        SceneManager.LoadScene("ResultScene");
-    }
 
     private void MakeNote(Enemy enemy)
     {
         GameObject obj = ObjectPoolContainer.Instance.Pop(IntToTypename(enemy.typeNum));//타입에 맞는 몬스터 오브젝트풀에서 생성
         obj.transform.position = spawnPoint[enemy.typeNum].position;//위치 정해주기
-        obj.GetComponent<EnemyInfo>().SetType(IntToTypename(enemy.typeNum));//타입 정해주기(사실 필요없음 위치 이해용)
+        obj.GetComponent<EnemyInfo>().SetType(IntToTypename(enemy.typeNum));//타입 정해주기
         obj.GetComponent<EnemyInfo>().speed = reachTime;//도달 시간
         obj.SetActive(true);
     }
