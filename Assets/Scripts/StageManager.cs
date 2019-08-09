@@ -33,6 +33,9 @@ public class StageManager : MonoBehaviour
             case "2-1":
                 Instantiate(Stage02);
                 break;
+            case "3-1":
+                Instantiate(Stage01);
+                break;
         }
     }
 
