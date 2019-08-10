@@ -118,6 +118,8 @@ public class ControlManager : MonoBehaviour
         judgeUIImage.sprite = judgeUISprites[(int)judge - 1];
         judgeUIAnimator.SetTrigger("judgeTrigger");
         Results.judgeNum[(int)judge-1]++;
+        if(judge==judges.MISS)
+            DestroyCombo();
     }
 
     public void ProcessCombo()
@@ -125,6 +127,7 @@ public class ControlManager : MonoBehaviour
         Results.combo++;
         comboText.text = Results.combo + " Combo";
         comboUIAnimator.SetTrigger("comboTrigger");
+        Debug.Log(Results.combo);
         if (Results.maxCombo < Results.combo)
         {
             Results.maxCombo = Results.combo;

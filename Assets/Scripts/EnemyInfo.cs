@@ -9,7 +9,6 @@ public class EnemyInfo : MonoBehaviour
 {
     private Rigidbody2D rb;
     private string effectName;
-    public Button button;
     public float speed;
     public float damage;
 
@@ -63,7 +62,6 @@ public class EnemyInfo : MonoBehaviour
             ControlManager.instance.GetThisEnemy(gameObject, (int)type);
 
             ControlManager.instance.judge = ControlManager.judges.MISS;
-            ControlManager.instance.DestroyCombo();
 
         }
         else if (col.tag == "HitLine")
