@@ -7,11 +7,11 @@ using UnityEngine.EventSystems;
 
 public class MainManager : MonoBehaviour
 {
-    public GameObject menu;       // 메뉴 전체 활성화/비활성화
-    public GameObject help;       // 메뉴 전체 활성화/비활성화
-    public GameObject setting;       // 메뉴 전체 활성화/비활성화
+    public GameObject endScreen;       // 메뉴 전체 활성화/비활성화
+    public GameObject help;       // 도움말
+    public GameObject setting;       // 환경설정
     public GameObject worldMap;        // 월드맵
-    public GameObject gameStart;
+    public GameObject stageInfo;        // 스테이지 정보
 
     public Text stageText;
     public Text highScore;
@@ -34,9 +34,9 @@ public class MainManager : MonoBehaviour
         {
             theAudio.Play(button);
 
-            if (gameStart.activeSelf)
+            if (stageInfo.activeSelf)
             {   // 우선순위가 가장 높음
-                gameStart.SetActive(false);
+                stageInfo.SetActive(false);
             }
             else if (setting.activeSelf || help.activeSelf || worldMap.activeSelf)
             {
@@ -46,33 +46,83 @@ public class MainManager : MonoBehaviour
             }
             else
             {
-                OnMenuActive();
+                OnEndScreenActive();
             }
         }
     }
 
-    public void OnMenuActive()
+    public void OnEndScreenActive()
     {
         activated = !activated;
 
         if (activated)
         {
-            menu.SetActive(true);
+            endScreen.SetActive(true);
             Time.timeScale = 0;
         }
         else
         {
-            menu.SetActive(false);
+            endScreen.SetActive(false);
             Time.timeScale = 1;
         }
     }
 
-    public void Continue()
+    public void OnStageInfoActive()
     {
         theAudio.Play(button);
-        activated = false;
-        menu.SetActive(false);
-        Time.timeScale = 1;
+        if (stageInfo.activeSelf)
+        {
+            stageInfo.SetActive(false);
+        }
+        else
+        {
+            stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
+            highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
+            highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
+
+            // 스테이지매니저에 클릭한 스테이지 정보 넘겨주기
+            StageManager.instance.stageNumber = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageNumber;
+            StageManager.instance.stageName = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
+            StageManager.instance.stageBGM = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM;
+
+            Debug.Log("번호 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageNumber + " / 스테이지 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName + " / 테마곡 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM);
+
+            stageInfo.SetActive(true);
+        }
+    }
+
+    public void OnPlayButton()
+    {
+        //stageText.text = "STAGE " + PlayerPrefs.GetInt("playerCurStage");
+        //highScore.text = "Score : " + PlayerPrefs.GetInt()
+        //StageManager.instance.stageNumber = 
+    }
+
+    public void OnSettingActive()
+    {
+        theAudio.Play(button);
+        if (setting.activeSelf)
+            setting.SetActive(false);
+        else
+            setting.SetActive(true);
+    }
+
+    public void OnHelpActive()
+    {
+        theAudio.Play(button);
+        if (help.activeSelf)
+            help.SetActive(false);
+        else
+            help.SetActive(true);
+    }
+
+    public void OnWorldMapActive()
+    {
+        theAudio.Play(button);
+        if(worldMap.activeSelf)
+            worldMap.SetActive(false);
+        else
+            worldMap.SetActive(true);
     }
 
     public void SceneChangeToGame()
@@ -81,63 +131,10 @@ public class MainManager : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
 
-    public void onGameStartActive()
+    public void InitStage()     // 플레이어 현재 스테이지 초기화
     {
-        theAudio.Play(button);
-
-        stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
-        highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
-        highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
-
-        StageManager.instance.stageName = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
-        Debug.Log("스테이지 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName);
-
-        StageManager.instance.stageBGM = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM;
-        Debug.Log("테마곡 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM);
-
-        gameStart.SetActive(true);
-    }
-
-    public void onGameStartDisable()
-    {
-        theAudio.Play(button);
-        gameStart.SetActive(false);
-    }
-
-    public void OnSettingActive()
-    {
-        theAudio.Play(button);
-        setting.SetActive(true);
-    }
-
-    public void OnSettingDisable()
-    {
-        theAudio.Play(button);
-        setting.SetActive(false);
-    }
-
-    public void onHelpActive()
-    {
-        theAudio.Play(button);
-        help.SetActive(true);
-    }
-
-    public void onHelpDisable()
-    {
-        theAudio.Play(button);
-        help.SetActive(false);
-    }
-
-    public void onWorldMapActive()
-    {
-        theAudio.Play(button);
-        worldMap.SetActive(true);
-    }
-
-    public void onWorldMapDisable()
-    {
-        theAudio.Play(button);
-        worldMap.SetActive(false);
+        PlayerPrefs.SetInt("playerCurStage", 1);
+        SceneManager.LoadScene("MainScene");
     }
 
     public void Exit()

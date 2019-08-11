@@ -5,25 +5,45 @@ using UnityEngine.UI;
 
 public class DBManager : MonoBehaviour
 {
+    public static DBManager instance;
+
     public Text highScoreText;
 
+    public int playerCurStage;      // 플레이어 현재 스테이지
+
+
+    void Awake()
+    {
+        instance = this; // 싱글톤 사용
+    }
 
     void Start()
     {
-        Debug.Log("1-1 현재 최고 스코어 :" + PlayerPrefs.GetInt("1-1Score").ToString());
         Load();
     }
 
-    //public void Save()
-    //{
+    public void Save()
+    {
 
-    //}
+    }
 
     public void Load()
     {
-        if (PlayerPrefs.HasKey("1-1Score"))    // Score 키값에 있는 int 값을 불러옴
-        {
-            highScoreText.text = "1-1 Best : " + PlayerPrefs.GetInt("1-1Score").ToString();
+        if (PlayerPrefs.HasKey("playerCurStage"))
+        {   // playerCurStage 키가 존재할때
+            playerCurStage = PlayerPrefs.GetInt("playerCurStage");
         }
+        else if (!PlayerPrefs.HasKey("playerCurStage"))
+        {   // playerCurStage 키가 존재하지 않을때
+            playerCurStage = 1;
+        }
+
+        Debug.Log("플레이어 현재 스테이지 : " + playerCurStage);
+    }
+
+    public void StageIncrease()     
+    {
+        playerCurStage++;       // 플레이어의 현재 스테이지 증가
+        PlayerPrefs.SetInt("playerCurStage", playerCurStage);   // db에 저장
     }
 }

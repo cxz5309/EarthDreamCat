@@ -25,7 +25,7 @@ public class ResultManager : MonoBehaviour
 
     private void Start()
     {
-        if (gameWin)
+        if (gameWin)    // 스테이지 성공
         {
             gameWinUI.SetActive(true);
             gameLoseUI.SetActive(false);
@@ -42,12 +42,14 @@ public class ResultManager : MonoBehaviour
                 Debug.Log("최고 스코어 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageName + "Score").ToString());
             }
             if (PlayerPrefs.GetInt(StageManager.instance.stageName + "Combo") < maxCombo)
-            {   // 최고 스코어보다 현재 점수가 더 높으면 현재 스테이지 점수 저장
+            {   // 콤보
                 PlayerPrefs.SetInt(StageManager.instance.stageName + "Combo", maxCombo); // 콤보 저장
                 Debug.Log("최고 콤보 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageName + "Combo").ToString());
             }
+
+            DBManager.instance.StageIncrease();     // 다음 스테이지를 저장하는 함수
         }
-        else
+        else  // 스테이지 실패
         {
             gameWinUI.SetActive(false);
             gameLoseUI.SetActive(true);

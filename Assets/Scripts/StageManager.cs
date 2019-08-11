@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
-    
+
+    public int stageNumber;
     public string stageName;
     public string stageBGM;
     public GameObject Stage01;
