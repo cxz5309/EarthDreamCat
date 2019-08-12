@@ -36,15 +36,11 @@ public class ResultManager : MonoBehaviour
             goodText.text = "Good : " + judgeNum[1].ToString();
             missText.text = "Miss : " + judgeNum[2].ToString();
 
-            if (PlayerPrefs.GetInt(StageManager.instance.stageName + "Score") < score)
+            if (PlayerPrefs.GetInt(StageManager.instance.stageNumber + "Score") < score)
             {   // 최고 스코어보다 현재 점수가 더 높으면 현재 스테이지 점수 저장
-                PlayerPrefs.SetInt(StageManager.instance.stageName + "Score", score); // 스코어 저장
-                Debug.Log("최고 스코어 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageName + "Score").ToString());
-            }
-            if (PlayerPrefs.GetInt(StageManager.instance.stageName + "Combo") < maxCombo)
-            {   // 콤보
-                PlayerPrefs.SetInt(StageManager.instance.stageName + "Combo", maxCombo); // 콤보 저장
-                Debug.Log("최고 콤보 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageName + "Combo").ToString());
+                PlayerPrefs.SetInt(StageManager.instance.stageNumber + "Score", score); // 스코어 저장
+                PlayerPrefs.SetInt(StageManager.instance.stageNumber + "Combo", maxCombo); // 콤보 저장
+                Debug.Log("최고 스코어 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageNumber + "Score").ToString() + "최고 콤보 저장 : " + PlayerPrefs.GetInt(StageManager.instance.stageNumber + "Combo").ToString());
             }
 
             DBManager.instance.StageIncrease();     // 다음 스테이지를 저장하는 함수
@@ -67,6 +63,4 @@ public class ResultManager : MonoBehaviour
         theAudio.Play(button);
         SceneManager.LoadScene("GameScene");
     }
-
-
 }

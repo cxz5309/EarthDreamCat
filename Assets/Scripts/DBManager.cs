@@ -35,7 +35,7 @@ public class DBManager : MonoBehaviour
         }
         else if (!PlayerPrefs.HasKey("playerCurStage"))
         {   // playerCurStage 키가 존재하지 않을때
-            playerCurStage = 1;
+            playerCurStage = 0;
         }
 
         Debug.Log("플레이어 현재 스테이지 : " + playerCurStage);

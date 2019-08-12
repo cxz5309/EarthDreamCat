@@ -15,17 +15,25 @@ public class StageInfo : MonoBehaviour
 
     void Start()
     {
+        stageName = StageManager.instance.stageInfoDic[stageNumber].stageName;
+        stageBGM = StageManager.instance.stageInfoDic[stageNumber].stageBGM;
+
         GetStageInfo();
     }
 
     void GetStageInfo()     // 겜 시작 할 때 각각의 스테이지 정보를 가져옴.
     {
-        highScore = PlayerPrefs.GetInt(stageName + "Score");
-        highCombo = PlayerPrefs.GetInt(stageName + "Combo");
+        highScore = PlayerPrefs.GetInt(stageNumber + "Score");
+        highCombo = PlayerPrefs.GetInt(stageNumber + "Combo");
 
         if (PlayerPrefs.GetInt("playerCurStage") < stageNumber)
         {   // playerCurStage 보다 높은 단계이면 버튼 비활성화
             gameObject.GetComponent<Button>().interactable = false;
         }
+
+        //if (PlayerPrefs.GetInt("playerCurStage") == stageNumber)
+        //{   // playerCurStage 단계이면 
+        //    StageManager.instance.GetPlayerCurStage();
+        //}
     }
 }

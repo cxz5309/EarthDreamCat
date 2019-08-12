@@ -93,9 +93,13 @@ public class MainManager : MonoBehaviour
 
     public void OnPlayButton()
     {
-        //stageText.text = "STAGE " + PlayerPrefs.GetInt("playerCurStage");
-        //highScore.text = "Score : " + PlayerPrefs.GetInt()
-        //StageManager.instance.stageNumber = 
+        // 플레이어 현재 스테이지에 해당하는 스테이지정보를 가져와야함.
+        StageManager.instance.GetPlayerCurStage();
+        stageText.text = "STAGE " + StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName;
+        highScore.text = "Score : " + 0;
+        highCombo.text = "Combo : " + 0;
+
+        stageInfo.SetActive(true);
     }
 
     public void OnSettingActive()
@@ -133,8 +137,9 @@ public class MainManager : MonoBehaviour
 
     public void InitStage()     // 플레이어 현재 스테이지 초기화
     {
-        PlayerPrefs.SetInt("playerCurStage", 1);
+        PlayerPrefs.SetInt("playerCurStage", 0);
         SceneManager.LoadScene("MainScene");
+        StageManager.instance.InitScore();
     }
 
     public void Exit()
