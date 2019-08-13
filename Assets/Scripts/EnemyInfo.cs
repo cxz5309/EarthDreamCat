@@ -12,14 +12,8 @@ public class EnemyInfo : MonoBehaviour
     public float speed;
     public float damage;
 
-    public Type type;
-
-    public enum Type
-    {
-        HighMonster, HighAttack, LowAttack, LowMonster
-    }
+    public int type { get; set; }//0=맨 위 몬스터, 1=2번째 투사체, 2=3번째 투사체, 3=마지막 몬스터
     
-
     private void Awake()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -29,14 +23,11 @@ public class EnemyInfo : MonoBehaviour
         damage = 10;
         Move(-10, speed);
     }
+
     private void Move(float to, float duration)
     {
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(transform.DOMoveX(to, duration));
-    }
-    public void SetType(string type)
-    {
-        this.type = (Type)Enum.Parse(typeof(Type), type);
     }
 
     public void DestroyThis()
@@ -47,7 +38,7 @@ public class EnemyInfo : MonoBehaviour
     {
         if (col.tag == "EndLine")
         {
-            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+            ControlManager.instance.GetThisEnemy(gameObject, type);
 
             ControlManager.instance.judge = ControlManager.judges.MISS;
             ControlManager.instance.ProcessJudge(ControlManager.judges.MISS);
@@ -59,20 +50,20 @@ public class EnemyInfo : MonoBehaviour
         else if(col.tag == "MissLine")
         {
 
-            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+            ControlManager.instance.GetThisEnemy(gameObject, type);
 
             ControlManager.instance.judge = ControlManager.judges.MISS;
 
         }
         else if (col.tag == "HitLine")
         {
-            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+            ControlManager.instance.GetThisEnemy(gameObject, type);
 
             ControlManager.instance.judge = ControlManager.judges.GOOD;
         }
         else if (col.tag == "PerfectLine")
         {
-            ControlManager.instance.GetThisEnemy(gameObject, (int)type);
+            ControlManager.instance.GetThisEnemy(gameObject, type);
 
             ControlManager.instance.judge = ControlManager.judges.PERFECT;
         }

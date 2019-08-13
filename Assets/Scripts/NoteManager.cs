@@ -107,7 +107,7 @@ public class NoteManager : MonoBehaviour
     {
         GameObject obj = ObjectPoolContainer.Instance.Pop(IntToTypename(enemy.typeNum));//타입에 맞는 몬스터 오브젝트풀에서 생성
         obj.transform.position = spawnPoint[enemy.typeNum].position;//위치 정해주기
-        obj.GetComponent<EnemyInfo>().SetType(IntToTypename(enemy.typeNum));//타입 정해주기
+        obj.GetComponent<EnemyInfo>().type = enemy.typeNum;//타입 정해주기
         obj.GetComponent<EnemyInfo>().speed = reachTime;//도달 시간
         obj.SetActive(true);
     }

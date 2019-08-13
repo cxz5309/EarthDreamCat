@@ -30,6 +30,7 @@ public class ControlManager : MonoBehaviour
 
     private void Start()
     {
+        Results.combo = 0;
         Results.score = 0;
         Results.maxCombo = 0;
         theAudio = FindObjectOfType<AudioManager>();
@@ -126,7 +127,6 @@ public class ControlManager : MonoBehaviour
         Results.combo++;
         comboText.text = Results.combo + " Combo";
         comboUIAnimator.SetTrigger("comboTrigger");
-        Debug.Log(Results.combo);
         if (Results.maxCombo < Results.combo)
         {
             Results.maxCombo = Results.combo;
