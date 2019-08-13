@@ -23,13 +23,15 @@ public class ResultManager : MonoBehaviour
     private AudioManager theAudio;
 
 
-    private void Start()
+    void Start()
     {
+        theAudio = FindObjectOfType<AudioManager>();
+        theAudio.Stop(StageManager.instance.stageBGM);
+
         if (gameWin)    // 스테이지 성공
         {
             gameWinUI.SetActive(true);
             gameLoseUI.SetActive(false);
-            theAudio = FindObjectOfType<AudioManager>();
             maxComboText.text = "MaxCombo : " + maxCombo.ToString();
             scoreText.text = "Score : " + score.ToString();
             perfectText.text = "Perfect : " + judgeNum[0].ToString();

@@ -43,6 +43,10 @@ public class DBManager : MonoBehaviour
 
     public void StageIncrease()     
     {
+        if (playerCurStage == StageManager.instance.stageInfoDic.Count - 1)
+        {
+            return;
+        }
         playerCurStage++;       // 플레이어의 현재 스테이지 증가
         PlayerPrefs.SetInt("playerCurStage", playerCurStage);   // db에 저장
     }
