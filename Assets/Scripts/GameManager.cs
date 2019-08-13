@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour
     private AudioManager theAudio;
 
     [Header("Object Pool Variables")]
-    public GameObject HighMonster;
-    public GameObject LowMonster;
-    public GameObject HighAttack;
-    public GameObject LowAttack;
+    private GameObject HighMonster;
+    private GameObject LowMonster;
+    private GameObject HighAttack;
+    private GameObject LowAttack;
     public GameObject HitEffect;
     //이거를 스테이지마다 다르게 리소스에서 받아와야 할 듯
 
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         instance = this; // 싱글톤 사용
         InitEnemyObjectPool();
         InitObjectPool(); // ObjectPoolContainer 초기화
+        NoteManager.instance.InitNoteWithBPM(StageManager.instance.stageName);
     }
 
     private void Start()

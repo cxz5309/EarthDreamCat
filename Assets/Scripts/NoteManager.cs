@@ -26,13 +26,6 @@ public class NoteManager : MonoBehaviour
     //순서, 적정보=위치(각 스테이지에서 자리에 맞는 이미지 받아옴), 데미지==각 스테이지에서 받아옴
     public void NoteStart()
     {
-        InitNoteWithBPM(StageManager.instance.stageName);
-        //에네미 리스트를 먼저 만든 후에
-        reachTime = beatInterval*3;//노트의 스피드(짧을수록 빠름)
-
-        endTime = enemies[enemies.Count - 1].order * beatInterval;
-        Debug.Log("비트 간격 시간" + beatInterval);
-        Debug.Log("종료 시간" + endTime);
         for (int i = 0; i < enemies.Count; i++)
         {
             StartCoroutine(coAwaitMakeNote(enemies[i]));
@@ -66,6 +59,13 @@ public class NoteManager : MonoBehaviour
                 Convert.ToInt32(line.Split(' ')[1]));//위치
             enemies.Add(enemy);
         }
+        //에네미 리스트를 먼저 만든 후에
+        reachTime = beatInterval * 3;//노트의 스피드(짧을수록 빠름)
+
+        endTime = enemies[enemies.Count - 1].order * beatInterval;
+
+        Debug.Log("비트 간격 시간" + beatInterval);
+        Debug.Log("종료 시간" + endTime);
     }
 
     //IEnumerator coNoteTimer(float endTime)

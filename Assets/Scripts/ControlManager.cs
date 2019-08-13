@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ControlManager : MonoBehaviour
 {
+    public static ControlManager instance;
+
     public enum judges { NONE = 0, PERFECT, GOOD, MISS };
     private GameObject[] thisEnemy = new GameObject[4];
     public GameObject judgeUI;
@@ -14,14 +16,11 @@ public class ControlManager : MonoBehaviour
     public Sprite[] judgeUISprites;
     public Text comboText;
     public Text scoreText;
-    
+    private AudioManager theAudio;
+
     #region
     private KeyCode keyCode;
     #endregion
-    public static ControlManager instance;
-
-    public string button;
-    private AudioManager theAudio;
 
 
     void Awake()
@@ -42,7 +41,7 @@ public class ControlManager : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            theAudio.Play(button);
+            theAudio.Play("button");
             PlayerInfo.instance.SetPlayerAnimator("punchTrigger");
             {
                 if (thisEnemy[0] != null)
@@ -58,7 +57,7 @@ public class ControlManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            theAudio.Play(button);
+            theAudio.Play("button");
             PlayerInfo.instance.SetPlayerAnimator("avoidTrigger");
             {
                 if (thisEnemy[1] != null)
@@ -74,7 +73,7 @@ public class ControlManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            theAudio.Play(button);
+            theAudio.Play("button");
             PlayerInfo.instance.SetPlayerAnimator("guardTrigger");
             {
                 if (thisEnemy[2] != null)
@@ -90,7 +89,7 @@ public class ControlManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            theAudio.Play(button);
+            theAudio.Play("button");
             PlayerInfo.instance.SetPlayerAnimator("attackTrigger");
             {
                 if (thisEnemy[3] != null)

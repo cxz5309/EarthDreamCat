@@ -5,22 +5,28 @@ using UnityEngine.UI;
 using DG.Tweening;
 public class UIManager : MonoBehaviour
 {
-    public Transform stageSliderLeft;
-    public Transform stageSliderRight;
-    public Transform stageSliderPointer;
+    public Slider stageSlider;
 
     private void Start()
     {
-        stageSliderPointer.position = stageSliderLeft.position;
+        StartCoroutine(coStageSlider());
     }
 
     IEnumerator coStageSlider()
     {
-        yield return new WaitForFixedUpdate();
+        float time = 0;
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.05f);
+        while (time < NoteManager.instance.endTime)
+        {
+            SliderFill();
+            time += 0.05f;
+            yield return waitForSeconds;
+        }
     }
 
     public void SliderFill()
     {
-        stageSliderPointer.position = Vector2.MoveTowards(stageSliderPointer.transform.position, stageSliderRight.position, Time.deltaTime/NoteManager.instance.endTime);
+        stageSlider.value += 1/(NoteManager.instance.endTime*20);
     }
+
 }

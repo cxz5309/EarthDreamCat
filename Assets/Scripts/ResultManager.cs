@@ -47,6 +47,7 @@ public class ResultManager : MonoBehaviour
         }
         else  // 스테이지 실패
         {
+            theAudio = FindObjectOfType<AudioManager>();
             gameWinUI.SetActive(false);
             gameLoseUI.SetActive(true);
         }
