@@ -13,6 +13,8 @@ public class MainManager : MonoBehaviour
     public GameObject worldMap;        // 월드맵
     public GameObject stageInfo;        // 스테이지 정보
 
+    public GameObject playButton;
+
     public Text stageText;
     public Text highScore;
     public Text highCombo;
@@ -26,6 +28,8 @@ public class MainManager : MonoBehaviour
     private void Start()
     {
         theAudio = FindObjectOfType<AudioManager>();
+
+        playButton.GetComponent<Text>().text = StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName + " PLAY";
     }
 
     void Update()
@@ -93,11 +97,13 @@ public class MainManager : MonoBehaviour
 
     public void OnPlayButton()
     {
+        theAudio.Play(button);
+
         // 플레이어 현재 스테이지에 해당하는 스테이지정보를 가져와야함.
         StageManager.instance.GetPlayerCurStage();
         stageText.text = "STAGE " + StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName;
-        highScore.text = "Score : " + 0;
-        highCombo.text = "Combo : " + 0;
+        highScore.text = "Score : " + PlayerPrefs.GetInt(PlayerPrefs.GetInt("playerCurStage").ToString() + "Score");
+        highCombo.text = "Combo : " + PlayerPrefs.GetInt(PlayerPrefs.GetInt("playerCurStage").ToString() + "Combo");
 
         stageInfo.SetActive(true);
     }

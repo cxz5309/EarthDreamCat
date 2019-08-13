@@ -18,9 +18,9 @@ public class StageManager : MonoBehaviour
 
     public void InitStage()
     {
-        stageInfoDic.Add(0, new Stage("1-1", "Theme01"));
-        stageInfoDic.Add(1, new Stage("2-1", "Theme02"));
-        stageInfoDic.Add(2, new Stage("3-1", "Theme01"));
+        stageInfoDic.Add(0, new Stage("1-1", "theme01"));
+        stageInfoDic.Add(1, new Stage("2-1", "theme02"));
+        stageInfoDic.Add(2, new Stage("3-1", "theme01"));
     }
 
     void Awake()
