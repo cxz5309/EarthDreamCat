@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class StageSelectManager : MonoBehaviour
 {
-    public GameObject StageList;
+    public GameObject Chapters;
+    public GameObject [] ChapterArr;
+    public GameObject [] ChapterStageArr;
 
     Vector2 nextPos;
 
     private int distance;
     private int speed = 5;
-    private int stageIndex;
-    public GameObject []stageArr;
+    private int chapIndex;
+    
 
     void Start()
     {
-        stageIndex = 0;
+        chapIndex = 0;
+        UpdateStage(chapIndex);
     }
 
     void Update()
@@ -29,30 +33,66 @@ public class StageSelectManager : MonoBehaviour
             Rignt();
         }
 
-        StageList.transform.localPosition = Vector2.Lerp(StageList.transform.localPosition, nextPos, Time.deltaTime * speed);
+        Chapters.transform.localPosition = Vector2.Lerp(Chapters.transform.localPosition, nextPos, Time.deltaTime * speed);
+    }
+
+    public void UpdateStage(int index)
+    {
+        StartCoroutine(ChapterSizeUp(index, true));
+        ChapterStageArr[index].SetActive(true);
     }
 
     public void Left()
     {
-        stageIndex += 1;
-        if (stageIndex >= stageArr.Length)
+        chapIndex -= 1;
+        if (chapIndex < 0)
         {
-            stageIndex = stageArr.Length - 1;
+            chapIndex = 0;
             return;
         }
-        distance -= 250;
-        nextPos = new Vector2(distance, StageList.transform.localPosition.y);
+
+        ChapterStageArr[chapIndex + 1].SetActive(false);
+        StartCoroutine(ChapterSizeUp(chapIndex + 1, false));
+        distance += 250;
+        nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
+        UpdateStage(chapIndex);
     }
 
     public void Rignt()
     {
-        stageIndex -= 1;
-        if (stageIndex < 0)
+        chapIndex += 1;
+        if (chapIndex >= ChapterArr.Length)
         {
-            stageIndex = 0;
+            chapIndex = ChapterArr.Length - 1;
             return;
         }
-        distance += 250;
-        nextPos = new Vector2(distance, StageList.transform.localPosition.y);
+
+        ChapterStageArr[chapIndex - 1].SetActive(false);
+        StartCoroutine(ChapterSizeUp(chapIndex - 1, false));
+        distance -= 250;
+        nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
+        UpdateStage(chapIndex);
+    }
+
+    IEnumerator ChapterSizeUp(int index, bool flag)
+    {
+        if (flag)
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                ChapterArr[index].transform.localScale = new Vector3(ChapterArr[index].transform.localScale.x + 0.02f,
+                    ChapterArr[index].transform.localScale.y + 0.02f, ChapterArr[index].transform.localScale.z + 0.02f);
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        else if (!flag)
+        {
+            for (int i = 15; i > 0; i--)
+            {
+                ChapterArr[index].transform.localScale = new Vector3(ChapterArr[index].transform.localScale.x - 0.02f,
+                    ChapterArr[index].transform.localScale.y - 0.02f, ChapterArr[index].transform.localScale.z - 0.02f);
+                yield return new WaitForFixedUpdate();
+            }
+        }
     }
 }

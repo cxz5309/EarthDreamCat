@@ -10,7 +10,7 @@ public class MainManager : MonoBehaviour
     public GameObject endScreen;       // 메뉴 전체 활성화/비활성화
     public GameObject help;       // 도움말
     public GameObject setting;       // 환경설정
-    public GameObject worldMap;        // 월드맵
+    public GameObject chapter;        // 월드맵
     public GameObject stageInfo;        // 스테이지 정보
 
     public GameObject playButton;
@@ -42,11 +42,11 @@ public class MainManager : MonoBehaviour
             {   // 우선순위가 가장 높음
                 stageInfo.SetActive(false);
             }
-            else if (setting.activeSelf || help.activeSelf || worldMap.activeSelf)
+            else if (setting.activeSelf || help.activeSelf || chapter.activeSelf)
             {
                 setting.SetActive(false);
                 help.SetActive(false);
-                worldMap.SetActive(false);
+                chapter.SetActive(false);
             }
             else
             {
@@ -126,13 +126,13 @@ public class MainManager : MonoBehaviour
             help.SetActive(true);
     }
 
-    public void OnWorldMapActive()
+    public void OnChapterActive()
     {
         theAudio.Play(button);
-        if(worldMap.activeSelf)
-            worldMap.SetActive(false);
+        if(chapter.activeSelf)
+            chapter.SetActive(false);
         else
-            worldMap.SetActive(true);
+            chapter.SetActive(true);
     }
 
     public void SceneChangeToGame()
