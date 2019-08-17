@@ -12,6 +12,7 @@ public class StageSelectManager : MonoBehaviour
     Vector2 nextPos;
 
     private int distance;
+    private int size = 300;
     private int speed = 5;
     private int chapIndex;
     
@@ -53,7 +54,7 @@ public class StageSelectManager : MonoBehaviour
 
         ChapterStageArr[chapIndex + 1].SetActive(false);
         StartCoroutine(ChapterSizeUp(chapIndex + 1, false));
-        distance += 250;
+        distance += size;
         nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
         UpdateStage(chapIndex);
     }
@@ -69,7 +70,7 @@ public class StageSelectManager : MonoBehaviour
 
         ChapterStageArr[chapIndex - 1].SetActive(false);
         StartCoroutine(ChapterSizeUp(chapIndex - 1, false));
-        distance -= 250;
+        distance -= size;
         nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
         UpdateStage(chapIndex);
     }
