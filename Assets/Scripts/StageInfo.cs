@@ -28,7 +28,7 @@ public class StageInfo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("playerCurStage") < stageNumber)
         {   // playerCurStage 보다 높은 단계이면 버튼 비활성화
-            gameObject.GetComponent<Button>().interactable = false;
+            gameObject.GetComponent<UIButton>().isEnabled = false;
         }
 
         //if (PlayerPrefs.GetInt("playerCurStage") == stageNumber)

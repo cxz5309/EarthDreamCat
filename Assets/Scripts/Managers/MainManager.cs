@@ -80,9 +80,9 @@ public class MainManager : MonoBehaviour
         }
         else
         {
-            stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
-            highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
-            highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
+            //stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
+            //highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
+            //highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
 
             // 스테이지매니저에 클릭한 스테이지 정보 넘겨주기
             StageManager.instance.stageNumber = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageNumber;
