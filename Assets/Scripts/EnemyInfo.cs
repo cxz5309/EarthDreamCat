@@ -20,8 +20,9 @@ public class EnemyInfo : MonoBehaviour
     }
     private void Start()
     {
+        StartCoroutine(coShotShiftY());
         damage = 10;
-        Move(-10, speed);
+        Move(this.transform.position.x-70, speed);
     }
 
     private void Move(float to, float duration)
@@ -30,10 +31,15 @@ public class EnemyInfo : MonoBehaviour
         mySequence.Append(transform.DOMoveX(to, duration));
     }
 
-    public void DestroyThis()
+    IEnumerator coShotShiftY()
     {
-        Destroy(gameObject);
+        if (this.type == 0)
+        {
+            yield return new WaitForSeconds(NoteManager.instance.beatInterval);
+            this.transform.DOMoveY(-25, NoteManager.instance.beatInterval).SetEase(Ease.OutQuint);
+        }
     }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "EndLine")
