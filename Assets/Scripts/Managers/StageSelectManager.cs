@@ -7,12 +7,11 @@ public class StageSelectManager : MonoBehaviour
 {
     public GameObject Chapters;
     public GameObject [] ChapterArr;
-    public GameObject [] ChapterStageArr;
 
     Vector2 nextPos;
 
     private int distance;
-    private int size = 300;
+    private int size = 400;
     private int speed = 5;
     private int chapIndex;
     
@@ -39,8 +38,8 @@ public class StageSelectManager : MonoBehaviour
 
     public void UpdateStage(int index)
     {
+        nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
         StartCoroutine(ChapterSizeUp(index, true));
-        ChapterStageArr[index].SetActive(true);
     }
 
     public void Left()
@@ -51,11 +50,9 @@ public class StageSelectManager : MonoBehaviour
             chapIndex = 0;
             return;
         }
-
-        ChapterStageArr[chapIndex + 1].SetActive(false);
+        
         StartCoroutine(ChapterSizeUp(chapIndex + 1, false));
         distance += size;
-        nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
         UpdateStage(chapIndex);
     }
 
@@ -67,11 +64,9 @@ public class StageSelectManager : MonoBehaviour
             chapIndex = ChapterArr.Length - 1;
             return;
         }
-
-        ChapterStageArr[chapIndex - 1].SetActive(false);
+        
         StartCoroutine(ChapterSizeUp(chapIndex - 1, false));
         distance -= size;
-        nextPos = new Vector2(distance, Chapters.transform.localPosition.y);
         UpdateStage(chapIndex);
     }
 
