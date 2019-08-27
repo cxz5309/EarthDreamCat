@@ -37,13 +37,11 @@ public class DBManager : MonoBehaviour
         {   // playerCurStage 키가 존재하지 않을때
             playerCurStage = 0;
         }
-
-        Debug.Log("플레이어 현재 스테이지 : " + playerCurStage);
     }
 
     public void StageIncrease()     
     {
-        if (playerCurStage == StageManager.instance.stageInfoDic.Count - 1)
+        if (playerCurStage == StageManager.instance.chapterDic.Count - 1)
         {
             return;
         }

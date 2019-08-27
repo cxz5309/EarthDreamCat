@@ -7,30 +7,86 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
 
+    public UIGrid m_grid;
+    public GameObject m_stageButton;
+
     public int stageNumber;
     public string stageName;
     public string stageBGM;
+
     public GameObject Stage01;
     public GameObject Stage02;
 
-    public Dictionary<int, Stage> stageInfoDic = new Dictionary<int, Stage>();
+    public Dictionary<string, List<Stage>> chapterDic = new Dictionary<string, List<Stage>>();
 
+
+    public void CreateStage(string chapter)
+    {
+        switch (chapter)
+        {
+            case "KOR":
+                List<Stage> stageList = chapterDic[chapter];
+                for (int i = 0; i < stageList.Count; i++)
+                {
+                    GameObject Obj = NGUITools.AddChild(m_grid.gameObject, m_stageButton.gameObject);
+                    Obj.SetActive(true);
+
+                    //UIButton button = Instantiate(stageButton).GetComponent<Transform>().SetParent();
+                    //button.transform.parent = stageGrid.transform;
+                }
+                break;
+            case "JAP":
+
+                break;
+        }
+
+        m_grid.Reposition();     // 재정렬
+    }
 
     public void InitStage()
     {
-        stageInfoDic.Add(0, new Stage("1-1", "theme01"));
-        stageInfoDic.Add(1, new Stage("1-2", "theme02"));
-        stageInfoDic.Add(2, new Stage("1-3", "theme01"));
-        stageInfoDic.Add(3, new Stage("2-1", "theme01"));
-        stageInfoDic.Add(4, new Stage("2-2", "theme01"));
-        stageInfoDic.Add(5, new Stage("2-3", "theme01"));
-        stageInfoDic.Add(6, new Stage("3-1", "theme01"));
-        stageInfoDic.Add(7, new Stage("3-2", "theme01"));
-        stageInfoDic.Add(8, new Stage("3-3", "theme01"));
-        stageInfoDic.Add(9, new Stage("3-4", "theme01"));
-        stageInfoDic.Add(10, new Stage("4-1", "theme01"));
-        stageInfoDic.Add(11, new Stage("4-2", "theme01"));
-        stageInfoDic.Add(12, new Stage("5-1", "theme01"));
+        List<Stage> stageList;
+
+        stageList = new List<Stage>();
+        stageList.Add(new Stage("1-1", "theme01"));
+        stageList.Add(new Stage("1-2", "theme02"));
+        stageList.Add(new Stage("1-3", "theme02"));
+        stageList.Add(new Stage("1-4", "theme01"));
+        chapterDic.Add("KOR", stageList);
+
+        stageList = new List<Stage>();
+        stageList.Add(new Stage("2-1", "theme01"));
+        stageList.Add(new Stage("2-2", "theme02"));
+        stageList.Add(new Stage("2-3", "theme01"));
+        chapterDic.Add("JAP", stageList);
+
+        stageList = new List<Stage>();
+        stageList.Add(new Stage("3-1", "theme02"));
+        stageList.Add(new Stage("3-2", "theme01"));
+        stageList.Add(new Stage("3-3", "theme02"));
+        stageList.Add(new Stage("3-4", "theme02"));
+        stageList.Add(new Stage("3-5", "theme01"));
+        stageList.Add(new Stage("3-6", "theme01"));
+        stageList.Add(new Stage("3-7", "theme02"));
+        chapterDic.Add("CHA", stageList);
+
+        stageList = new List<Stage>();
+        stageList.Add(new Stage("4-1", "theme02"));
+        stageList.Add(new Stage("4-2", "theme01"));
+        stageList.Add(new Stage("4-3", "theme02"));
+        stageList.Add(new Stage("4-4", "theme02"));
+        stageList.Add(new Stage("4-5", "theme01"));
+        stageList.Add(new Stage("4-6", "theme01"));
+        stageList.Add(new Stage("4-7", "theme02"));
+        stageList.Add(new Stage("4-8", "theme02"));
+        chapterDic.Add("USA", stageList);
+
+        stageList = new List<Stage>();
+        stageList.Add(new Stage("5-1", "theme02"));
+        stageList.Add(new Stage("5-2", "theme01"));
+        stageList.Add(new Stage("5-3", "theme02"));
+        stageList.Add(new Stage("5-4", "theme02"));
+        chapterDic.Add("ESP", stageList);
     }
 
     void Awake()
@@ -48,8 +104,8 @@ public class StageManager : MonoBehaviour
     {
         stageNumber = PlayerPrefs.GetInt("playerCurStage");
 
-        stageName = stageInfoDic[stageNumber].stageName;
-        stageBGM = stageInfoDic[stageNumber].stageBGM;
+        //stageName = stageInfoDic["KOR"].stageName;
+        //stageBGM = stageInfoDic["KOR"].stageBGM;
     }
 
     public void CreateMap()
@@ -68,14 +124,14 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    public void InitScore()
-    {
-        for (int i = 0; i < stageInfoDic.Count; i++)
-        {
-            PlayerPrefs.SetInt(i + "Score", 0);
-            PlayerPrefs.SetInt(i + "Combo", 0);
-        }
-    }
+    //public void InitScore()
+    //{
+    //    for (int i = 0; i < stageInfoDic.Count; i++)
+    //    {
+    //        PlayerPrefs.SetInt(i + "Score", 0);
+    //        PlayerPrefs.SetInt(i + "Combo", 0);
+    //    }
+    //}
 
     private void OnDestroy()
     {

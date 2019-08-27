@@ -15,8 +15,8 @@ public class StageInfo : MonoBehaviour
 
     void Start()
     {
-        stageName = StageManager.instance.stageInfoDic[stageNumber].stageName;
-        stageBGM = StageManager.instance.stageInfoDic[stageNumber].stageBGM;
+        //stageName = StageManager.instance.stageInfoDic[stageNumber].stageName;
+        //stageBGM = StageManager.instance.stageInfoDic[stageNumber].stageBGM;
 
         GetStageInfo();
     }

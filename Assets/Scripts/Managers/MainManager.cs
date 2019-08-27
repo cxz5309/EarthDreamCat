@@ -7,17 +7,13 @@ using UnityEngine.EventSystems;
 
 public class MainManager : MonoBehaviour
 {
-    public GameObject endScreen;       // 메뉴 전체 활성화/비활성화
-    public GameObject help;       // 도움말
-    public GameObject setting;       // 환경설정
-    public GameObject chapter;        // 월드맵
-    public GameObject stageInfo;        // 스테이지 정보
+    public GameObject exitScreen;       // 메뉴 전체 활성화/비활성화
+    public GameObject chapterScreen;        // 월드맵
+    public GameObject stageScreen;        // 스테이지 정보
+
+    public UILabel chapterName;
 
     public GameObject playButton;
-
-    public Text stageText;
-    public Text highScore;
-    public Text highCombo;
 
     private bool activated;     // 활성화 됐는지 비활성화 됐는지
 
@@ -29,7 +25,7 @@ public class MainManager : MonoBehaviour
     {
         theAudio = FindObjectOfType<AudioManager>();
 
-        playButton.GetComponent<Text>().text = StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName + " PLAY";
+        //playButton.GetComponent<Text>().text = StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName + " PLAY";
     }
 
     void Update()
@@ -38,101 +34,60 @@ public class MainManager : MonoBehaviour
         {
             theAudio.Play(button);
 
-            if (stageInfo.activeSelf)
+            if (stageScreen.activeSelf)
             {   // 우선순위가 가장 높음
-                stageInfo.SetActive(false);
+                stageScreen.SetActive(false);
             }
-            else if (setting.activeSelf || help.activeSelf || chapter.activeSelf)
+            else if (chapterScreen.activeSelf)
             {
-                setting.SetActive(false);
-                help.SetActive(false);
-                chapter.SetActive(false);
+                chapterScreen.SetActive(false);
             }
             else
             {
-                OnEndScreenActive();
+                OnEndActive();
             }
         }
     }
 
-    public void OnEndScreenActive()
+    public void OnEndActive()
     {
         activated = !activated;
 
         if (activated)
         {
-            endScreen.SetActive(true);
+            exitScreen.SetActive(true);
             Time.timeScale = 0;
         }
         else
         {
-            endScreen.SetActive(false);
+            exitScreen.SetActive(false);
             Time.timeScale = 1;
         }
     }
 
-    public void OnStageInfoActive()
+    public void OnStageActive()
     {
         theAudio.Play(button);
-        if (stageInfo.activeSelf)
+
+        if (stageScreen.activeSelf)
         {
-            stageInfo.SetActive(false);
+            stageScreen.SetActive(false);
         }
         else
         {
-            //stageText.text = "STAGE " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
-            //highScore.text = "Score : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highScore;
-            //highCombo.text = "Combo : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().highCombo;
-
-            // 스테이지매니저에 클릭한 스테이지 정보 넘겨주기
-            StageManager.instance.stageNumber = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageNumber;
-            StageManager.instance.stageName = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName;
-            StageManager.instance.stageBGM = EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM;
-
-            Debug.Log("번호 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageNumber + " / 스테이지 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageName + " / 테마곡 : " + EventSystem.current.currentSelectedGameObject.GetComponent<StageInfo>().stageBGM);
-
-            stageInfo.SetActive(true);
+            stageScreen.SetActive(true);
+            chapterName.text = UIButton.current.tag;
+            StageManager.instance.CreateStage(UIButton.current.tag);
         }
-    }
-
-    public void OnPlayButton()
-    {
-        theAudio.Play(button);
-
-        // 플레이어 현재 스테이지에 해당하는 스테이지정보를 가져와야함.
-        StageManager.instance.GetPlayerCurStage();
-        stageText.text = "STAGE " + StageManager.instance.stageInfoDic[PlayerPrefs.GetInt("playerCurStage")].stageName;
-        highScore.text = "Score : " + PlayerPrefs.GetInt(PlayerPrefs.GetInt("playerCurStage").ToString() + "Score");
-        highCombo.text = "Combo : " + PlayerPrefs.GetInt(PlayerPrefs.GetInt("playerCurStage").ToString() + "Combo");
-
-        stageInfo.SetActive(true);
-    }
-
-    public void OnSettingActive()
-    {
-        theAudio.Play(button);
-        if (setting.activeSelf)
-            setting.SetActive(false);
-        else
-            setting.SetActive(true);
-    }
-
-    public void OnHelpActive()
-    {
-        theAudio.Play(button);
-        if (help.activeSelf)
-            help.SetActive(false);
-        else
-            help.SetActive(true);
     }
 
     public void OnChapterActive()
     {
         theAudio.Play(button);
-        if(chapter.activeSelf)
-            chapter.SetActive(false);
+        if(chapterScreen.activeSelf)
+            chapterScreen.SetActive(false);
         else
-            chapter.SetActive(true);
+            chapterScreen.SetActive(true);
     }
 
     public void SceneChangeToGame()
@@ -145,7 +100,7 @@ public class MainManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("playerCurStage", 0);
         SceneManager.LoadScene("MainScene");
-        StageManager.instance.InitScore();
+        //StageManager.instance.InitScore();
     }
 
     public void Exit()
