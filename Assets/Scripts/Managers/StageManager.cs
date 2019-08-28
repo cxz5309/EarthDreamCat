@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
 
     public UIGrid m_grid;
     public GameObject m_stageButton;
+    public UILabel m_stageLabel;
 
     public int stageNumber;
     public string stageName;
@@ -22,22 +23,16 @@ public class StageManager : MonoBehaviour
 
     public void CreateStage(string chapter)
     {
-        switch (chapter)
+        List<Stage> stageList = chapterDic[chapter];
+
+        for (int i = 0; i < stageList.Count; i++)
         {
-            case "KOR":
-                List<Stage> stageList = chapterDic[chapter];
-                for (int i = 0; i < stageList.Count; i++)
-                {
-                    GameObject Obj = NGUITools.AddChild(m_grid.gameObject, m_stageButton.gameObject);
-                    Obj.SetActive(true);
-
-                    //UIButton button = Instantiate(stageButton).GetComponent<Transform>().SetParent();
-                    //button.transform.parent = stageGrid.transform;
-                }
-                break;
-            case "JAP":
-
-                break;
+            m_stageLabel.text = stageList[i].stageName;
+            GameObject btn = NGUITools.AddChild(m_grid.gameObject, m_stageButton.gameObject);
+            btn.GetComponent<StageInfo>().stageName = stageList[i].stageName;
+            btn.GetComponent<StageInfo>().stageBGM = stageList[i].stageBGM;
+            btn.name = "Stage " + stageList[i].stageName;
+            btn.SetActive(true);
         }
 
         m_grid.Reposition();     // 재정렬

@@ -5,7 +5,7 @@ using UnityEngine;
 public class LoadManager : MonoBehaviour
 {
     public GameObject audioManager;
-    public GameObject stageManager;
+    //public GameObject stageManager;
 
 
     private void Awake()
@@ -14,9 +14,9 @@ public class LoadManager : MonoBehaviour
         {
             Instantiate(audioManager);
         }
-        if (StageManager.instance == null)
-        {
-            Instantiate(stageManager);
-        }
+        //if (StageManager.instance == null)
+        //{
+        //    Instantiate(stageManager);
+        //}
     }
 }
