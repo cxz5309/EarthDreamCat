@@ -7,9 +7,10 @@ using UnityEngine.EventSystems;
 
 public class MainManager : MonoBehaviour
 {
-    public GameObject exitScreen;       // 메뉴 전체 활성화/비활성화
-    public GameObject chapterScreen;        // 월드맵
-    public GameObject stageScreen;        // 스테이지 정보
+    public GameObject screenExit;       // 메뉴 전체 활성화/비활성화
+    public GameObject screenChapter;        // 월드맵
+    public GameObject screenStage;        // 스테이지 정보
+    public GameObject screenReady;         // 준비창
 
     public UILabel chapterName;
 
@@ -34,13 +35,13 @@ public class MainManager : MonoBehaviour
         {
             theAudio.Play(button);
 
-            if (stageScreen.activeSelf)
+            if (screenStage.activeSelf)
             {   // 우선순위가 가장 높음
-                stageScreen.SetActive(false);
+                screenStage.SetActive(false);
             }
-            else if (chapterScreen.activeSelf)
+            else if (screenChapter.activeSelf)
             {
-                chapterScreen.SetActive(false);
+                screenChapter.SetActive(false);
             }
             else
             {
@@ -55,13 +56,30 @@ public class MainManager : MonoBehaviour
 
         if (activated)
         {
-            exitScreen.SetActive(true);
+            screenExit.SetActive(true);
             Time.timeScale = 0;
         }
         else
         {
-            exitScreen.SetActive(false);
+            screenExit.SetActive(false);
             Time.timeScale = 1;
+        }
+    }
+
+    public void OnReadyActive()
+    {
+        theAudio.Play(button);
+
+        if (screenReady.activeSelf)
+        {
+            screenReady.SetActive(false);
+        }
+        else
+        {
+            screenReady.SetActive(true);
+
+            StageManager.instance.stageName = UIButton.current.GetComponent<StageInfo>().stageName;
+            StageManager.instance.stageBGM = UIButton.current.GetComponent<StageInfo>().stageBGM;
         }
     }
 
@@ -69,13 +87,13 @@ public class MainManager : MonoBehaviour
     {
         theAudio.Play(button);
 
-        if (stageScreen.activeSelf)
+        if (screenStage.activeSelf)
         {
-            stageScreen.SetActive(false);
+            screenStage.SetActive(false);
         }
         else
         {
-            stageScreen.SetActive(true);
+            screenStage.SetActive(true);
             chapterName.text = UIButton.current.tag;
             StageManager.instance.CreateStage(UIButton.current.tag);
         }
@@ -84,10 +102,10 @@ public class MainManager : MonoBehaviour
     public void OnChapterActive()
     {
         theAudio.Play(button);
-        if(chapterScreen.activeSelf)
-            chapterScreen.SetActive(false);
+        if(screenChapter.activeSelf)
+            screenChapter.SetActive(false);
         else
-            chapterScreen.SetActive(true);
+            screenChapter.SetActive(true);
     }
 
     public void SceneChangeToGame()

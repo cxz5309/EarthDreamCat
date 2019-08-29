@@ -11,7 +11,10 @@ public class StageManager : MonoBehaviour
     public GameObject m_stageButton;
     public UILabel m_stageLabel;
 
+    public UILabel r_stageLabel;
+
     public int stageNumber;
+
     public string stageName;
     public string stageBGM;
 
@@ -109,6 +112,15 @@ public class StageManager : MonoBehaviour
         {
             case "1-1":
                 Instantiate(Stage01);
+                break;
+            case "1-2":
+                Instantiate(Stage02);
+                break;
+            case "1-3":
+                Instantiate(Stage01);
+                break;
+            case "1-4":
+                Instantiate(Stage02);
                 break;
             case "2-1":
                 Instantiate(Stage02);

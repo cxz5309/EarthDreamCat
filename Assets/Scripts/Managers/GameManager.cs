@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         StageManager.instance.CreateMap();         // StageManager에 있는 StageName이 가지고 있는 맵을 생성
         themeSound = StageManager.instance.stageBGM;    // StageManager에 있는 stageBGM 재생
         theAudio.Play(themeSound);
+
         NoteManager.instance.NoteStart();
     }
 
